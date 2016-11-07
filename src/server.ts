@@ -1,47 +1,17 @@
-// the polyfills must be one of the first things imported in node.js.
-// The only modules to be imported higher - node modules with es6-promise 3.x or other Promise polyfill dependency
-// (rule of thumb: do it if you have zone.js exception that it has been overwritten)
-// if you are including modules that modify Promise, such as NewRelic,, you must include them before polyfills
-import 'angular2-universal-polyfills';
+import { universal } from './backend/config/client'
 
-// Fix Universal Style
-import { NodeDomRootRenderer, NodeDomRenderer } from 'angular2-universal/node';
-function renderComponentFix(componentProto: any) {
-  return new NodeDomRenderer(this, componentProto, this._animationDriver);
-}
-NodeDomRootRenderer.prototype.renderComponent = renderComponentFix;
-// End Fix Universal Style
+universal.init();
 
 import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 
-// Angular 2
-import { enableProdMode } from '@angular/core';
-// Angular 2 Universal
-import { createEngine } from 'angular2-express-engine';
-
-// App
-import { MainModule } from './app/app.node.module';
-
-// enable prod for faster renders
-enableProdMode();
-
 const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
 
-// Express View
-app.engine('.html', createEngine({
-  precompile: true,
-  ngModule: MainModule,
-  providers: [
-    // use only if you have shared state between users
-    // { provide: 'LRU', useFactory: () => new LRU(10) }
+universal.setup(app);
 
-    // stateless providers only since it's shared
-  ]
-}));
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname);
 app.set('view engine', 'html');
