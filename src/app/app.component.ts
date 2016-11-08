@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
       <a routerLink="/home" routerLinkActive="active">Home</a>
       <a routerLink="/about" routerLinkActive="active">About</a>
     </nav>
-
+    <user></user>
     <p>Hello Angular Universal App</p>
 
     <router-outlet></router-outlet>

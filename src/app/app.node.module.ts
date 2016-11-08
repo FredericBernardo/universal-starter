@@ -13,6 +13,7 @@ import { HomeModule } from './home/home.module';
 import { AboutModule } from './about/about.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserModule } from "./modules/users/user.module";
 import { CacheService } from './shared/cache.service';
 
 import * as LRU from 'modern-lru';
@@ -32,6 +33,7 @@ export function getLRU(lru?: any) {
     SharedModule,
     HomeModule,
     AboutModule,
+    UserModule,
 
     AppRoutingModule
   ],
