@@ -11,35 +11,35 @@ import { createEngine } from 'angular2-express-engine';
 // App
 import { MainModule } from '../../app/app.node.module';
 
-export const universal = {
-
-    init(): void {
-        NodeDomRootRenderer.prototype.renderComponent = this.renderComponentFix;
-    },
-
-    // Fix Universal Style
-    renderComponentFix(componentProto: any) {
-        return new NodeDomRenderer(this, componentProto, this._animationDriver);
-    },
-
-    setup(app: any): void {
-        // Angular 2
-
-        // enable prod for faster renders
-        enableProdMode();
-
-        // Express View
-        app.engine('.html', createEngine({
-            precompile: true,
-            ngModule: MainModule,
-            providers: [
-                // use only if you have shared state between users
-                // { provide: 'LRU', useFactory: () => new LRU(10) }
-                
-                // stateless providers only since it's shared
-  ]
-}));
-
-    },
-
+// Fix Universal Style
+function renderComponentFix(componentProto: any) {
+  return new NodeDomRenderer(this, componentProto, this._animationDriver);
 }
+
+export const frontend = {
+
+  init(): void {
+    NodeDomRootRenderer.prototype.renderComponent = renderComponentFix;
+  },
+
+  setup(app: any): void {
+    // Angular 2
+
+    // enable prod for faster renders
+    enableProdMode();
+
+    // Express View
+    app.engine('.html', createEngine({
+      precompile: true,
+      ngModule: MainModule,
+      providers: [
+        // use only if you have shared state between users
+        // { provide: 'LRU', useFactory: () => new LRU(10) }
+
+        // stateless providers only since it's shared
+      ]
+    }));
+
+  },
+
+};
