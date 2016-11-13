@@ -7,6 +7,8 @@ __platform_browser_private__.HammerGesturesPlugin.prototype.supports = universal
 import { NgModule, Inject, Optional, SkipSelf } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node'; // for AoT we need to manually split universal packages
+import { HttpModule } from "@angular/http";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
@@ -26,10 +28,14 @@ export function getLRU(lru?: any) {
 
 @NgModule({
   bootstrap: [ AppComponent ],
-  declarations: [ AppComponent ],
+  declarations: [
+    AppComponent
+  ],
   imports: [
     UniversalModule, // NodeModule, NodeHttpModule, and NodeJsonpModule are included
     FormsModule,
+    HttpModule,
+    NgbModule.forRoot(),
 
     SharedModule,
     HomeModule,
@@ -50,7 +56,8 @@ export function getLRU(lru?: any) {
       ]
     },
     CacheService
-  ]
+  ],
+
 })
 export class MainModule {
   constructor(public cache: CacheService) {
@@ -63,7 +70,7 @@ export class MainModule {
    */
   universalDoDehydrate = (universalCache) => {
     universalCache[CacheService.KEY] = JSON.stringify(this.cache.dehydrate());
-  }
+  };
 
  /**
   * Clear the cache after it's rendered

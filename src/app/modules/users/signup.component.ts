@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { UserService } from './user.service';
@@ -7,7 +6,7 @@ import { UserService } from './user.service';
 @Component({
     selector: 'user',
     templateUrl: './views/authentication/signup.client.view.html',
-    providers: [ UserService, Http ]
+    providers: [ UserService ]
 })
 export class SignupComponent {
     constructor(

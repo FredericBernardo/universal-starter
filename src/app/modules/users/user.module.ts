@@ -9,7 +9,7 @@ import { UserService } from './user.service';
 import { UserRoutingModule } from "./user.routing";
 
 @NgModule({
-    imports:      [
+    imports: [
         NgbModule,
         CommonModule,
         FormsModule,
@@ -17,11 +17,14 @@ import { UserRoutingModule } from "./user.routing";
         JsonpModule,
         UserRoutingModule
     ],
-    providers: [ UserService ],
+  exports: [
+    SignupComponent
+  ],
+  providers: [ UserService ],
     declarations: [
         SignupComponent,
     ],
-    bootstrap: [ SignupComponent ]
+  bootstrap: [ SignupComponent ]
 
 })
 export class UserModule { }
