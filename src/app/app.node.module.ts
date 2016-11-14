@@ -10,11 +10,11 @@ import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node'; //
 import { HttpModule } from "@angular/http";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { SharedModule } from './shared/shared.module';
-import { HomeModule } from './home/home.module';
-import { AboutModule } from './about/about.module';
+import { HomeModule } from './+home/home.module';
+import { AboutModule } from './+about/about.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
 import { UserModule } from "./modules/users/user.module";
 import { CacheService } from './shared/cache.service';
 
@@ -28,9 +28,7 @@ export function getLRU(lru?: any) {
 
 @NgModule({
   bootstrap: [ AppComponent ],
-  declarations: [
-    AppComponent
-  ],
+  declarations: [ AppComponent ],
   imports: [
     UniversalModule, // NodeModule, NodeHttpModule, and NodeJsonpModule are included
     FormsModule,
@@ -56,8 +54,7 @@ export function getLRU(lru?: any) {
       ]
     },
     CacheService
-  ],
-
+  ]
 })
 export class MainModule {
   constructor(public cache: CacheService) {
@@ -70,7 +67,7 @@ export class MainModule {
    */
   universalDoDehydrate = (universalCache) => {
     universalCache[CacheService.KEY] = JSON.stringify(this.cache.dehydrate());
-  };
+  }
 
  /**
   * Clear the cache after it's rendered

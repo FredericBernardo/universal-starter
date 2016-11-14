@@ -4,8 +4,8 @@ import { UniversalModule, isBrowser, isNode } from 'angular2-universal/browser';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpModule } from "@angular/http";
 
-import { HomeModule } from './home/home.module';
-import { AboutModule } from './about/about.module';
+import { HomeModule } from './+home/home.module';
+import { AboutModule } from './+about/about.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';

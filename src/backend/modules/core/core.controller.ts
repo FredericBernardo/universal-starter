@@ -8,7 +8,7 @@ export const CoreController = {
   renderIndex(req, res) {
     var safeUserObject = null;
     if (req.user) {
-      safeUserObject = {
+      res.user = {
         displayName: validator.escape(req.user.displayName),
         provider: validator.escape(req.user.provider),
         username: validator.escape(req.user.username),
@@ -23,9 +23,13 @@ export const CoreController = {
     }
 
     res.render('../modules/core/views/layout', {
-      res,
       req,
-      user: JSON.stringify(safeUserObject),
+      res,
+      // time: true, // use this to determine what part of your app is slow only in development
+      preboot: false,
+      baseUrl: '/',
+      requestUrl: req.originalUrl,
+      originUrl: 'http://localhost:3000',      // time: true, // use this to determine what part of your app is slow only in development
       sharedConfig: 'TODO'//TODO JSON.stringify(config.shared)
     });
   },
@@ -37,6 +41,10 @@ export const CoreController = {
     res.status(500).render('../modules/core/views/500', {
       res,
       req,
+      preboot: false,
+      baseUrl: '/',
+      requestUrl: req.originalUrl,
+      originUrl: 'http://localhost:3000',      // time: true, // use this to determine what part of your app is slow only in development
       error: 'Oops! Something went wrong...'
     });
   },
@@ -51,6 +59,10 @@ export const CoreController = {
         res.render('../modules/core/views/404', {
           res,
           req,
+          preboot: false,
+          baseUrl: '/',
+          requestUrl: req.originalUrl,
+          originUrl: 'http://localhost:3000',      // time: true, // use this to determine what part of your app is slow only in development
           url: req.originalUrl
         });
       },
