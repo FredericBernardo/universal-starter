@@ -34,7 +34,9 @@ export const CoreController = {
    * Render the server error page
    */
     renderServerError(req, res) {
-    res.status(500).render('modules/core/server/views/500', {
+    res.status(500).render('../modules/core/views/500', {
+      res,
+      req,
       error: 'Oops! Something went wrong...'
     });
   },
@@ -47,6 +49,8 @@ export const CoreController = {
     res.status(404).format({
       'text/html': function () {
         res.render('../modules/core/views/404', {
+          res,
+          req,
           url: req.originalUrl
         });
       },

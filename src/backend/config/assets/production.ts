@@ -1,0 +1,3 @@
+export = {
+  // Production assets
+};

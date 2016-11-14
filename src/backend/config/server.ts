@@ -3,12 +3,16 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 
+import { initGlobalConfig } from './lib/config';
+
 // Demo
 import { serverApi } from '../api';
 
 export const backend = {
 
   init(): void {
+    initGlobalConfig();
+
     this.app = express();
     const ROOT = path.join(path.resolve(__dirname, '../../..'));
 
