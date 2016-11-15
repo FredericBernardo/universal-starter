@@ -18,12 +18,9 @@ function renderComponentFix(componentProto: any) {
 
 export const frontend = {
 
-  init(): void {
-    NodeDomRootRenderer.prototype.renderComponent = renderComponentFix;
-  },
-
-  setup(app: any): void {
+  setup(app: any, db, config): void {
     // Angular 2
+    NodeDomRootRenderer.prototype.renderComponent = renderComponentFix;
 
     // enable prod for faster renders
     enableProdMode();

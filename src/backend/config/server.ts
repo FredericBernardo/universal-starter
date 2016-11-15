@@ -1,54 +1,62 @@
-import * as path from 'path';
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as cookieParser from 'cookie-parser';
+/**
+ * Module dependencies.
+ */
+import * as chalk from 'chalk';
 
-import { initGlobalConfig } from './lib/config';
+import { config } from './lib/config';
+var mongoose = require('./lib/mongoose');
+var express  = require('./lib/express');
 
-// Demo
-import { serverApi } from '../api';
+module.exports.start = function start(callback) {
+  var _this = this;
 
-export const backend = {
+  _this.init(function (app, db, config) {
 
-  init(): void {
-    initGlobalConfig();
+    // Start the app by listening on <port> at <host>
+    app.listen(config.port, config.host, function () {
+      // Create server URL
+      var server = (process.env.NODE_ENV === 'secure' ? 'https://' : 'http://') + config.host + ':' + config.port;
+      // Logging initialization
+      console.log('--');
+      console.log(chalk.green(config.app.title));
+      console.log();
+      console.log(chalk.green('Environment:     ' + process.env.NODE_ENV));
+      console.log(chalk.green('Server:          ' + server));
+      console.log(chalk.green('Database:        ' + config.db.uri));
+      console.log(chalk.green('App version:     ' + config.meanjs.version));
+      if (config.meanjs['meanjs-version'])
+        console.log(chalk.green('MEAN.JS version: ' + config.meanjs['meanjs-version']));
+      console.log('--');
 
-    this.app = express();
-    const ROOT = path.join(path.resolve(__dirname, '../../..'));
-
-    this.app.set('port', process.env.PORT || 3000);
-    this.app.set('views', __dirname);
-    this.app.set('view engine', 'html');
-
-    this.app.use(cookieParser('Angular 2 Universal'));
-    this.app.use(bodyParser.json());
-
-    // Serve static files
-    this.app.use('/assets', express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
-    this.app.use(express.static(path.join(ROOT, 'dist/client'), {index: false}));
-
-    // Our API for demos only
-    this.app.get('/data.json', serverApi);
-
-    // Server
-    let server = this.app.listen(this.app.get('port'), () => {
-      console.log(`Listening on: http://localhost:${server.address().port}`);
+      if (callback)
+        callback(app, db, config);
     });
 
-    return this.app;
-  },
+  });
+};
 
-  finalize(): void {
+module.exports.init = function init(callback) {
+  mongoose.connect(function (db) {
+    // Initialize express
+    var app = express.init(db);
 
+    if (callback)
+      callback(app, db, config);
+
+    finalize(app);
+  });
+};
+
+
+var finalize = function(app) {
     // Routes
-    require('../modules/core/core.routes')(this.app);
+    require('../modules/core/core.routes')(app);
 
-    this.app.get('*', function (req, res) {
+    app.get('*', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       var pojo = {status: 404, message: 'No Content'};
       var json = JSON.stringify(pojo, null, 2);
       res.status(404).send(json);
     });
 
-  }
 };

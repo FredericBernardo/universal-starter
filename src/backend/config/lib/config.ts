@@ -160,7 +160,7 @@ var initGlobalConfigFiles = function (config, assets) {
 /**
  * Initialize global configuration
  */
-export function initGlobalConfig() {
+var initGlobalConfig = function() {
 
   // Validate NODE_ENV existence
   validateEnvironmentVariable();
@@ -215,3 +215,5 @@ export function initGlobalConfig() {
 
   return config;
 };
+
+export const config = initGlobalConfig();

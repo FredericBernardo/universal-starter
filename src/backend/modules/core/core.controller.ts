@@ -22,7 +22,7 @@ export const CoreController = {
       };
     }
 
-    res.render('../modules/core/views/layout', {
+    res.render('core/views/layout', {
       req,
       res,
       // time: true, // use this to determine what part of your app is slow only in development
