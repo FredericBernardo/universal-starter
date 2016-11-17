@@ -22,14 +22,14 @@ export var commonPlugins = [
 
 export var commonConfig = {
   // https://webpack.github.io/docs/configuration.html#devtool
-  devtool: 'source-maps',
+  devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.js', '.json']
   },
   context: __dirname,
   output: {
     publicPath: path.resolve(__dirname),
-    filename: 'index.js'
+    filename: '[name].bundle.js'
   },
   module: {
     loaders: [
@@ -77,6 +77,7 @@ export var serverConfig = {
   target: 'node',
   entry: './src/server', // use the entry file of the node server if everything is ts rather than es5
   output: {
+    filename: 'index.js',
     path: root('dist/server'),
     libraryTarget: 'commonjs2'
   },
@@ -85,7 +86,9 @@ export var serverConfig = {
       { test: /@angular(\\|\/)material/, loader: "imports-loader?window=>global" }
     ],
   },
-  externals: includeClientPackages(/@angular|angular2-|ng2-|ng-|angular-|@ngrx|@angular2|ionic|-angular2|-ng2|-ng/),
+  externals: includeClientPackages(
+    /@angularclass|@angular|angular2-|ng2-|ng-|@ng-|angular-|@ngrx|ngrx-|@angular2|ionic|-angular2|-ng2|-ng/
+  ),
   node: {
     global: true,
     crypto: true,

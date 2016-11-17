@@ -3,27 +3,18 @@
 // (rule of thumb: do it if you have zone.js exception that it has been overwritten)
 // if you are including modules that modify Promise, such as NewRelic,, you must include them before polyfills
 import 'angular2-universal-polyfills';
-import { NodeDomRootRenderer, NodeDomRenderer } from 'angular2-universal/node';
-import { enableProdMode } from '@angular/core';
+import 'ts-helpers';
+import '../../__workaround.node'; // temporary until 2.1.1 things are patched in Core
+
 // Angular 2 Universal
 import { createEngine } from 'angular2-express-engine';
 
 // App
 import { MainModule } from '../../app/app.node.module';
 
-// Fix Universal Style
-function renderComponentFix(componentProto: any) {
-  return new NodeDomRenderer(this, componentProto, this._animationDriver);
-}
-
 export const frontend = {
 
   setup(app: any, db, config): void {
-    // Angular 2
-    NodeDomRootRenderer.prototype.renderComponent = renderComponentFix;
-
-    // enable prod for faster renders
-    enableProdMode();
 
     // Express View
     app.engine('.html', createEngine({

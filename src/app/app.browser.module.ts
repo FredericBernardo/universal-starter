@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UniversalModule, isBrowser, isNode } from 'angular2-universal/browser'; // for AoT we need to manually split universal packages
+import { UniversalModule, isBrowser, isNode, AUTO_PREBOOT } from 'angular2-universal/browser'; // for AoT we need to manually split universal packages
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpModule } from "@angular/http";
 
@@ -50,7 +50,9 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
 
     { provide: 'LRU', useFactory: getLRU, deps: [] },
 
-    CacheService
+    CacheService,
+
+    // { provide: AUTO_PREBOOT, useValue: false } // turn off auto preboot complete
   ]
 
 })
