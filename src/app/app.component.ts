@@ -11,13 +11,8 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/
    }
   `],
   template: `
-    <nav>
-      <a routerLink="/home" routerLinkActive="active">Home</a>
-      <a routerLink="/about" routerLinkActive="active">About</a>
-    </nav>
     <user>Loading users...</user>
-
-    <router-outlet></router-outlet>
+    <calendar>Loading calendar...</calendar>
   `
 })
 export class AppComponent {

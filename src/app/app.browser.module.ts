@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CacheService } from './shared/cache.service';
+import { EventModule} from "./modules/events/event.module";
 import { UserModule } from "./modules/users/user.module";
 
 export function getLRU() {
@@ -35,8 +36,7 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
     NgbModule.forRoot(),
 
     SharedModule,
-    HomeModule,
-    AboutModule,
+    EventModule,
     UserModule,
 
     AppRoutingModule

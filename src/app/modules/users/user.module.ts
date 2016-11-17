@@ -9,22 +9,23 @@ import { UserService } from './user.service';
 import { UserRoutingModule } from "./user.routing";
 
 @NgModule({
-    imports: [
-        NgbModule,
-        CommonModule,
-        FormsModule,
-        HttpModule,
-        JsonpModule,
-        UserRoutingModule
-    ],
+  imports: [
+    NgbModule,
+    CommonModule,
+    FormsModule,
+    HttpModule,
+    JsonpModule,
+    UserRoutingModule
+  ],
   exports: [
     SignupComponent
   ],
-  providers: [ UserService ],
-    declarations: [
-        SignupComponent,
-    ],
-  bootstrap: [ SignupComponent ]
+  providers: [UserService],
+  declarations: [
+    SignupComponent,
+  ],
+  bootstrap: [SignupComponent]
 
 })
-export class UserModule { }
+export class UserModule {
+}
