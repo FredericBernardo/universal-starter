@@ -30,7 +30,7 @@ constructor(element: ElementRef, renderer: Renderer) {
 }
 ```
  - The application runs XHR requests on the server & once again on the Client-side (when the application bootstraps)
-    - Use a [UniversalCache](https://github.com/angular/universal-starter/blob/master/src/app/universal-cache.ts) to save certain requests so they aren't re-ran again on the Client.
+    - Use a [UniversalCache](https://github.com/angular/universal-starter/blob/master/src/app/shared/api.service.ts#L47-L71) instead of regular Http, to save certain requests so they aren't re-ran again on the Client.
  - Know the difference between attributes and properties in relation to the DOM.
  - Keep your directives stateless as much as possible. For stateful directives, you may need to provide an attribute that reflects the corresponding property with an initial string value such as url in img tag. For our native <img src=""> element the src attribute is reflected as the src property of the element type HTMLImageElement.
 
@@ -40,7 +40,6 @@ constructor(element: ElementRef, renderer: Renderer) {
 
  - SeoServices
  - Universal fixes for Angular Core 2.1.1
- - AoT funcionality is still a *work-in-progress*, but is available as of 2.1.0-rc1
 
 ## Installation
 
@@ -56,6 +55,9 @@ constructor(element: ElementRef, renderer: Renderer) {
 
 ## Watch files
 * `npm run watch` to build your client app and start a web server
+
+## AoT and Prod
+* `npm run build:prod:ngc` to compile the ngfactory files and build prod
 
 ## Edge case of server compatibility with Promise polyfills
 

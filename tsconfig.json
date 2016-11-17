@@ -9,18 +9,10 @@
     "sourceMap": true,
     "sourceRoot": "src",
     "target": "es5",
-    "lib": ["es6", "dom"],
-    "types": [
-      "body-parser",
-      "compression",
-      "cookie-parser",
-      "express",
-      "express-serve-static-core",
-      "mime",
-      "node",
-      "serve-static",
-      "hammerjs"
-    ]
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": ["es6", "dom"]
   },
   "exclude": [
     "node_modules"

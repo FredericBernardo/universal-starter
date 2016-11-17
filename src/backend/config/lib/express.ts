@@ -1,8 +1,11 @@
-'use strict';
-
 /**
  * Module dependencies.
  */
+
+// Angular
+import { createEngine } from 'angular2-express-engine';
+import { MainModule } from '../../../app/app.node.module';
+
 import { config } from './config';
 import { logger } from './logger';
 var express = require('express'),
@@ -95,9 +98,15 @@ module.exports.initMiddleware = function (app) {
  * Configure view engine
  */
 module.exports.initViewEngine = function (app) {
-  app.engine('html', hbs.express4({
-    extname: '.html'
-  }));
+  app.engine('html', createEngine({
+    ngModule: MainModule,
+    providers: [
+      // use only if you have shared state between users
+      // { provide: 'LRU', useFactory: () => new LRU(10) }
+
+      // stateless providers only since it's shared
+    ]
+  }))
   app.set('view engine', 'html');
   app.set('views', path.resolve('src/backend/modules'));
 };

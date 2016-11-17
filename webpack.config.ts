@@ -3,7 +3,7 @@ var path = require('path');
 var clone = require('js.clone');
 var webpackMerge = require('webpack-merge');
 
-var commonPlugins = [
+export var commonPlugins = [
   new webpack.ContextReplacementPlugin(
     // The (\\|\/) piece accounts for path separators in *nix and Windows
     /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
@@ -13,20 +13,16 @@ var commonPlugins = [
     }
   ),
 
-  // To use gzip, you can run 'npm install compression-webpack-plugin --save-dev'
-  // add 'var CompressionPlugin = require("compression-webpack-plugin");' on the top
-  // and comment out below codes
-  //
-  // new CompressionPlugin({
-  //   asset: "[path].gz[query]",
-  //   algorithm: "gzip",
-  //   test: /\.js$|\.css$|\.html$/,
-  //   threshold: 10240,
-  //   minRatio: 0.8
-  // })
+  // Loader options
+  new webpack.LoaderOptionsPlugin({
+
+  }),
+
 ];
 
-var commonConfig = {
+export var commonConfig = {
+  // https://webpack.github.io/docs/configuration.html#devtool
+  devtool: 'source-maps',
   resolve: {
     extensions: ['.ts', '.js', '.json']
   },
@@ -51,11 +47,11 @@ var commonConfig = {
 };
 
 // Client.
-var clientPlugins = [
+export var clientPlugins = [
 
 ];
 
-var clientConfig = {
+export var clientConfig = {
   target: 'web',
   entry: './src/client',
   output: {
@@ -63,6 +59,7 @@ var clientConfig = {
   },
   node: {
     global: true,
+    crypto: 'empty',
     __dirname: true,
     __filename: true,
     process: true,
@@ -72,11 +69,11 @@ var clientConfig = {
 
 
 // Server.
-var serverPlugins = [
+export var serverPlugins = [
 
 ];
 
-var serverConfig = {
+export var serverConfig = {
   target: 'node',
   entry: './src/server', // use the entry file of the node server if everything is ts rather than es5
   output: {
@@ -88,23 +85,10 @@ var serverConfig = {
       { test: /@angular(\\|\/)material/, loader: "imports-loader?window=>global" }
     ],
   },
-  externals: includeClientPackages([
-    // include these client packages so we can transform their source with webpack loaders
-
-    // '@angular/common',
-    // '@angular/compiler',
-    // '@angular/core',
-    // '@angular/forms',
-    // '@angular/http',
-    // '@angular/platform-browser',
-    // '@angular/platform-browser-dynamic',
-    // '@angular/platform-server',
-    // '@angular/router',
-
-    '@angular/material'
-  ]),
+  externals: includeClientPackages(/@angular|angular2-|ng2-|ng-|angular-|@ngrx|@angular2|ionic|-angular2|-ng2|-ng/),
   node: {
     global: true,
+    crypto: true,
     __dirname: true,
     __filename: true,
     process: true,
@@ -112,7 +96,7 @@ var serverConfig = {
   }
 };
 
-module.exports = [
+export default [
   // Client
   webpackMerge(clone(commonConfig), clientConfig, { plugins: clientPlugins.concat(commonPlugins) }),
 
@@ -120,23 +104,32 @@ module.exports = [
   webpackMerge(clone(commonConfig), serverConfig, { plugins: serverPlugins.concat(commonPlugins) })
 ];
 
-function includeClientPackages(packages) {
+
+
+
+// Helpers
+
+export function includeClientPackages(packages) {
   return function(context, request, cb) {
-    if (packages && packages.indexOf(request) !== -1) {
-      return cb();
+    if (packages) {
+      if (packages instanceof RegExp && packages.test(request)) {
+        return cb();
+      } else if (typeof packages === 'string' && packages.indexOf(request) !== -1) {
+        return cb();
+      }
     }
     return checkNodeImport(context, request, cb);
   };
 }
-// Helpers
-function checkNodeImport(context, request, cb) {
+
+export function checkNodeImport(context, request, cb) {
   if (!path.isAbsolute(request) && request.charAt(0) !== '.') {
     cb(null, 'commonjs ' + request); return;
   }
   cb();
 }
 
-function root(args) {
+export function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return path.join.apply(path, [__dirname].concat(args));
 }

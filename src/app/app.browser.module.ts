@@ -15,6 +15,12 @@ import { UserModule } from "./modules/users/user.module";
 export function getLRU() {
   return new Map();
 }
+export function getRequest() {
+  return {};
+}
+export function getResponse() {
+  return {};
+}
 
 // TODO(gdi2290): refactor into Universal
 export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
@@ -39,7 +45,11 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
     { provide: 'isBrowser', useValue: isBrowser },
     { provide: 'isNode', useValue: isNode },
 
+    { provide: 'req', useFactory: getRequest },
+    { provide: 'res', useFactory: getResponse },
+
     { provide: 'LRU', useFactory: getLRU, deps: [] },
+
     CacheService
   ]
 
